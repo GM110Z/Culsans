@@ -8,10 +8,10 @@ INPUTS
 genomes.txt
     Current genome list. This contains:
       - the original dereplicated Pseudomonas background genomes
-      - PAPI29 representative genomes that were subsequently added
+      - Culsans representative genomes that were subsequently added
 
 papi29distri
-    IPG table containing PAPI29 protein hits, with columns including:
+    IPG table containing Culsans protein hits, with columns including:
       blast_protein_accession
       ipg_source
       ipg_protein_accession
@@ -26,30 +26,6 @@ papi29distri
 
 ncbi/
     Directory containing downloaded genome files.
-
-LOGIC
------
-1. KEEP all genomes from genomes.txt by default.
-
-2. REMOVE a genome ONLY if:
-      a) its GCF/GCA assembly accession occurs explicitly in papi29distri
-      AND
-      b) the corresponding IPG organism is NOT Pseudomonas.
-
-   IMPORTANT:
-   A genome being ABSENT from papi29distri does NOT cause its removal.
-   Most of the original Pseudomonas background genomes are expected
-   not to occur in the PAPI29 IPG file.
-
-3. Find every PAPI29-containing Pseudomonas assembly in papi29distri.
-
-4. If that Pseudomonas PAPI29 assembly is already represented in the
-   cleaned genomes.txt, do not add it again.
-
-5. If it is not represented but its genome FASTA exists under ncbi/,
-   add it.
-
-6. Deduplicate the final genome set by assembly accession.
 
 OUTPUTS
 -------
