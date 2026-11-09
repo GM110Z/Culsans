@@ -1,34 +1,6 @@
 #!/usr/bin/env python3
 
 """
-PAPI29_LPS_Association.py
-
-Association analysis between PAPI29/Culsans presence and LPS/O-antigen
-KOfam annotations while accounting for phylogenetic population structure.
-
-PAPI29 status:
-    Pseudomonas assemblies present in the supplied IPG file are PAPI29+.
-    Cohort assemblies absent from the IPG are PAPI29-.
-
-Analyses:
-    1. Fisher's exact test for every KO.
-    2. Odds ratio and prevalence difference.
-    3. Benjamini-Hochberg correction of naive P values.
-    4. Principal-coordinate representation of patristic tree distances.
-    5. Logistic regression controlling for phylogenetic coordinates.
-    6. Likelihood-ratio test:
-           PAPI29 ~ phylogeny
-       versus
-           PAPI29 ~ phylogeny + KO
-    7. Benjamini-Hochberg correction of phylogeny-adjusted P values.
-
-Figures:
-    1. Effect-size/significance scatter.
-    2. PAPI29+ versus PAPI29- KO prevalence heatmap.
-    3. Phylogenetic tree with PAPI29 status and selected KO presence.
-
-Example:
-
 python PAPI29_LPS_Association.py \
     --tree GToTree_PAPI29/GToTree_PAPI29.tre \
     --kofam lps_kofam_new/ko_presence_unambiguous.tsv \
