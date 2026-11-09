@@ -24,7 +24,7 @@ Original Pseudomonas genome set + Culsans IPG distribution (Culsansdistri)
           GToTree                    faa_pseudomonas.txt
              |                                 |
              v                                 v
-      Aligned_SCGs.faa                   LPSKoFamScan.py
+      Aligned_SCGs.faa                   KoFamScan.py
              |                                 |
              v                                 v
     population phylogeny            ko_presence_unambiguous.tsv
@@ -50,7 +50,7 @@ Missing *Pseudomonas* Culsans representatives were added while avoiding
 duplicate assembly accessions.
 
 The resulting cleaned/merged cohort was used consistently for
-phylogenetic reconstruction and LPS annotation.
+phylogenetic reconstruction and LPS/pili annotation.
 
 Important downstream cohort files include:
 
@@ -59,7 +59,7 @@ Important downstream cohort files include:
     Pseudomonas accession list --- assembly accessions representing the
     analysis cohort.
 -   `faa_pseudomonas.txt` --- paths to protein FASTA files for the same
-    Pseudomonas cohort, used by `LPSKoFamScan.py`.
+    Pseudomonas cohort, used by `KoFamScan.py`.
 
 ## 2. Population phylogeny --- GToTree
 
@@ -75,21 +75,21 @@ GToTree \
 ```
 
 
-## 3. Targeted LPS KOfam annotation --- `LPSKoFamScan.py`
+## 3. Targeted LPS KOfam annotation --- `KoFamScan.py`
 
 Protein FASTA files corresponding to the cleaned Pseudomonas cohort were
 collected in:
 
 `faa_pseudomonas.txt`
 
-`LPSKoFamScan.py` runs targeted KofamScan against the LPS/O-antigen KO
+`KoFamScan.py` runs targeted KofamScan against the LPS/O-antigen KO
 sets using calibrated KOfam thresholds. Existing gene/product
 annotations are not used to assign the targeted KOs.
 
 Example:
 
 ``` bash
-python LPSKoFamScan.py \
+python KoFamScan.py \
   --root . \
   --faa-list faa_pseudomonas.txt \
   --cpu 8 \
