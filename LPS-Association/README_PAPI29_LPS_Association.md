@@ -1,7 +1,7 @@
-# PAPI29--LPS association workflow
+# Culsans--LPS association workflow
 
 This workflow tests whether LPS, lipid A, core-oligosaccharide and
-O-antigen/nucleotide-sugar KOs are associated with PAPI29 distribution
+O-antigen/nucleotide-sugar KOs are associated with Culsans distribution
 across a *Pseudomonas* genome cohort, while accounting for population
 structure.
 
@@ -10,10 +10,10 @@ structure.
 The final analysis was performed in the following order:
 
 ``` text
-Original Pseudomonas genome set + PAPI29 IPG distribution (papi29distri)
+Original Pseudomonas genome set + Culsans IPG distribution (Culsansdistri)
                               |
                               v
-                    fix_papi29_genomes.py
+                    fix_Culsans_genomes.py
                               |
              +----------------+----------------+
              |                                 |
@@ -32,22 +32,21 @@ Original Pseudomonas genome set + PAPI29 IPG distribution (papi29distri)
              +---------------+-----------------+
                              |
                              v
-                 lps-papi29-association.py
+                 lps-Culsans-association.py
                              |
                              v
              phylogeny-adjusted KO associations
 ```
 
-The older `LPSLink.py` and `LPSAssoc.py` scripts are not part of the
-final workflow.
 
-## 1. Construct the Pseudomonas/PAPI29 genome cohort --- `fix_papi29_genomes.py`
+
+## 1. Construct the Pseudomonas/Culsans genome cohort --- `fix_Culsans_genomes.py`
 
 The starting genome set contained *Pseudomonas* genomes plus
-representative genomes added from the PAPI29 IPG distribution. Because
-the downstream biological work concerns PAPI29 in *Pseudomonas*, PAPI29
+representative genomes added from the Culsans IPG distribution. Because
+the downstream biological work concerns Culsans in *Pseudomonas*, Culsans
 representatives belonging to non-*Pseudomonas* genera were removed.
-Missing *Pseudomonas* PAPI29 representatives were added while avoiding
+Missing *Pseudomonas* Culsans representatives were added while avoiding
 duplicate assembly accessions.
 
 The resulting cleaned/merged cohort was used consistently for
@@ -72,21 +71,9 @@ GToTree \
   -f genomes_merged_gotree.txt \
   -H Gammaproteobacteria \
   -j 8 \
-  -o GToTree_PAPI29
+  -o GToTree_Culsans
 ```
 
-The important reusable GToTree output is:
-
-`GToTree_PAPI29/Aligned_SCGs.faa`
-
-This is the concatenated aligned single-copy-marker alignment used to
-infer the population phylogeny supplied to the association analysis.
-
-**Note:** in this run GToTree's nominal `.tre` output was empty because
-the FastTree process did not successfully write a completed tree. The
-SCG alignment itself was retained and was used for the subsequent
-tree-building step. Do not treat the original zero-byte
-`GToTree_PAPI29.tre` as a valid tree.
 
 ## 3. Targeted LPS KOfam annotation --- `LPSKoFamScan.py`
 
@@ -118,34 +105,34 @@ the KO-specific KOfam threshold. A value of `0` means that no qualifying
 hit was detected; it should not be interpreted as proof of biological
 absence.
 
-## 4. PAPI29--LPS association --- `lps-papi29-association.py`
+## 4. Culsans--LPS association --- `lps-Culsans-association.py`
 
 The final script combines four components:
 
 1.  the cleaned *Pseudomonas* assembly cohort;
-2.  PAPI29 distribution from `papi29distri`;
+2.  Culsans distribution from `Culsansdistri`;
 3.  LPS/O-antigen KO presence from `ko_presence_unambiguous.tsv`; and
 4.  the population phylogeny derived from the GToTree SCG alignment.
 
 Example:
 
 ``` bash
-python lps-papi29-association.py \
+python lps-Culsans-association.py \
   --tree <final_population_tree> \
   --kofam lps_kofam_new/ko_presence_unambiguous.tsv \
-  --ipg papi29distri \
+  --ipg Culsansdistri \
   --cohort gtotree_merged_accessions_pseudomonas.txt \
-  --outdir PAPI29_LPS_association \
+  --outdir Culsans_LPS_association \
   --palette '#F5EBDD' '#F2765E' '#315B8C' '#413333' \
   --phylo-variance 0.80 \
   --top-n 20
 ```
 
-PAPI29 status is assigned from the supplied IPG table: cohort
-*Pseudomonas* assemblies represented in the PAPI29 IPG are PAPI29+,
-while other cohort assemblies are PAPI29−.
+Culsans status is assigned from the supplied IPG table: cohort
+*Pseudomonas* assemblies represented in the Culsans IPG are Culsans+,
+while other cohort assemblies are Culsans−.
 
-For each KO, the script reports PAPI29+/− prevalence, Fisher's exact
+For each KO, the script reports Culsans+/− prevalence, Fisher's exact
 test, odds ratio and Benjamini--Hochberg FDR. Population structure is
 represented by principal coordinates calculated from pairwise patristic
 distances in the supplied tree. Enough coordinates are retained to meet
@@ -166,14 +153,14 @@ P values are Benjamini--Hochberg corrected.
     --- population-structure covariates and represented variance.
 -   `01_association_scatter.*` --- association effect versus
     phylogeny-adjusted significance.
--   `02_prevalence_heatmap.*` --- prevalence of selected KOs in PAPI29−
-    and PAPI29+ genomes.
--   `03_tree_KO_heatmap.*` --- phylogenetic distribution of PAPI29 and
+-   `02_prevalence_heatmap.*` --- prevalence of selected KOs in Culsans−
+    and Culsans+ genomes.
+-   `03_tree_KO_heatmap.*` --- phylogenetic distribution of Culsans and
     selected KOs.
 
 ## Interpretation
 
-For phylogeny-adjusted PAPI29 enrichment, use **`phylo_FDR < 0.05` and
+For phylogeny-adjusted Culsans enrichment, use **`phylo_FDR < 0.05` and
 `phylo_beta > 0`**. For depletion, use **`phylo_FDR < 0.05` and
 `phylo_beta < 0`**.
 
