@@ -234,29 +234,5 @@ The main counting unit is one selected RefSeq nucleotide neighbourhood per uniqu
 
 The association percentage is calculated as the number of analysable Culsans representative neighbourhoods containing at least one retained DefenseFinder, AntiDefenseFinder, or PADLOC call divided by all analysable representative neighbourhoods. `DMS_other` is excluded from the merged biological analysis; it remains only in the raw program-call table for auditability. The 17 proteins without a RefSeq IPG mapping are reported as exclusions and are not included in this denominator.
 
-For a main manuscript figure, the individual-system bar plot, A4 genus-by-system heatmap, and association-breadth panel are more informative than the binary defence-versus-no-defence plot. The latter is retained as an optional supplementary or quality-control figure. Bacterial names are italicised in the heatmaps; protein accessions and software/system labels remain upright.
 
-### Completed analysis snapshot (13 September 2026)
 
-The complete `blast_hits.tsv` run contained 500 unique Culsans protein accessions. RefSeq IPG mappings suitable for neighbourhood extraction were available for 483 accessions; 17 accessions had no RefSeq IPG mapping and are recorded in `failures.tsv`. Both DefenseFinder/AntiDefenseFinder and PADLOC completed for all 483 extracted neighbourhoods, and the target Culsans CDS was recovered in every extracted context.
-
-After excluding `DMS_other`, 264 of the 483 analysable representative neighbourhoods (54.66%) contained at least one retained predicted defence or anti-defence system and 219 (45.34%) contained no retained system. This percentage uses 483, not all 500 input proteins, as its denominator; the 17 unmapped accessions are unavailable rather than system-negative. There were 301 complete target-plus-30-kb-each-side windows and 182 windows truncated at a linear replicon or contig edge.
-
-The completed scanners produced 693 original program-specific calls. After excluding `DMS_other` and merging only same-family predictions that share genes or overlap, the retained analysis contains 547 nonredundant genomic loci; 134 are supported by both DefenseFinder and PADLOC. The headline 264/483 (54.66%) association is a binary union calculated once per representative neighbourhood, never a sum of program calls. Among the 264 positive neighbourhoods, 145 contain at least two nonredundant predicted loci.
-
-AntiDefenseFinder was run through DefenseFinder's `--antidefensefinder` option. It detected five anti-defence calls: four Apyc1 calls and one Ardc call. These are marked `call_class=anti-defence` and remain separate from defence calls in the supplementary tables.
-
-### Interpretation and quality control
-
-- A neighbourhood is labelled `defence_environment=yes` when at least one unique DefenseFinder, AntiDefenseFinder, or PADLOC system call occurs within the extracted window.
-- Co-occurrence does not demonstrate that Culsans is part of, regulated by, or mechanistically associated with a predicted system.
-- Review `target_cds_found`, `edge_status`, `genes.tsv`, scanner logs, and `failures.tsv` before using a neighbourhood in the final analysis.
-- Predictions from different tools can overlap and must not be added together as though they were independent biological systems.
-- Retain the cache and raw tool directories used for the final paper analysis.
-- Record the run date, exact command, NCBI access date, program versions, model/database versions, and manual quality-control decisions.
-
-## Manuscript Methods draft
-
-Protein accessions identified in the Culsans BLAST analysis were mapped to RefSeq nucleotide records using NCBI Identical Protein Groups through the NCBI E-utilities. For each unique RefSeq protein accession, one nucleotide representative with valid CDS coordinates was selected deterministically, prioritising curated and complete-replicon RefSeq accessions and mappings with assembly and organism metadata. A genomic neighbourhood comprising the target CDS and 30 kb of sequence on each side was retrieved. Circular replicons were wrapped across the coordinate origin where required; intervals on linear replicons were truncated at sequence boundaries and flagged. Protein-coding sequences within each neighbourhood were analysed with DefenseFinder, including AntiDefenseFinder models, and PADLOC. A neighbourhood was scored positive once when either program detected at least one defence or anti-defence system. For system-level summaries, overlapping calls were reconciled into nonredundant genomic loci by shared constituent genes or by overlap of harmonised system families; original program-specific labels were retained for provenance. Frequencies and heatmaps were calculated from these consensus loci.
-
-Before submission, add the final analysis date, exact NCBI access date, BLAST parameters, software and model/database versions, final sample counts, exclusions, and manual-review procedure.
