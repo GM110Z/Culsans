@@ -1,13 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-Resumable targeted KofamScan cell-surface annotation (LPS, O-antigen, and type IV pilus).
-
-Uses calibrated KOfam thresholds, never existing gene/product names.
-
-Input is a text file containing one protein FASTA (.faa) path per genome.
-Assembly accessions (GCF_/GCA_) are extracted directly from those paths.
-"""
 
 import argparse
 import csv
